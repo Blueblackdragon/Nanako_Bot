@@ -12,7 +12,7 @@ module.exports = {
             const coin = Math.round(number);
             console.log(coin)
             if (number === 0.5) {
-                return interaction.followUp(`Do we both lose or both win`);
+                return interaction.followUp(`On its side... "So what will it be? Do we both win, or do we both lose?" "I say we both win."`);
             }
             else {
                 if(coin === 1) return interaction.followUp('The coin landed on heads!');
