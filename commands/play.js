@@ -12,16 +12,15 @@ module.exports = {
 		.setName('play')
 		.setDescription('Information about the options provided.')
 		.addStringOption(option => option.setName('input').setDescription('The input to echo back').setRequired(true)),
-	async execute(interaction) {
+	async execute(interaction, nanako, player) {
         const url = interaction.options.getString("input");
         console.log(url);
         let stream = await play.stream(url);
         const connection = getVoiceConnection(interaction.member.guild.id)
-        const player = createAudioPlayer();
-        const resource = createAudioResource(stream.stream, {
-		inputType: stream.type}, { inlineVolume: true });
+        //const player = createAudioPlayer();
+        const resource = createAudioResource(stream.stream, { inputType: stream.type }, { inlineVolume: true });
         connection.subscribe(player);
         player.play(resource);
-        return interaction.reply(`Now Playing: ${url}`)
+        return player, interaction.reply(`Now Playing: ${url}`)
 }};
 

@@ -1,8 +1,8 @@
 const fs = require('fs');
 const { Client, Collection, Intents, VoiceChannel, ClientApplication } = require('discord.js');
 const { token } = require('./config.json');
-const { createAudioPlayer,createAudioResource,entersState,
-	StreamType, AudioPlayerStatus, VoiceConnectionStatus,} = require('@discordjs/voice');
+const { createAudioPlayer, createAudioResource, entersState,
+	StreamType, AudioPlayerStatus, VoiceConnectionStatus, AudioPlayer} = require('@discordjs/voice');
 
 const nanako = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 
