@@ -1,4 +1,5 @@
 const { getVoiceConnection, createAudioResource, StreamType, createAudioPlayer } = require('@discordjs/voice');
+const { join } = require('path');
 
 module.exports = {
 	name: 'voiceStateUpdate',
@@ -14,14 +15,14 @@ module.exports = {
                 const player = createAudioPlayer();
                 console.log(player._state.status)
                 if (player._state.status == "idle"){
-                    setTimeout(() => {
-                                const resource = createAudioResource('https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/77/Cow_hurt1.ogg/revision/latest?cb=20120528164556', {
-                                    inputType: StreamType.Arbitrary});
+                                const resource = createAudioResource(join(__dirname, "../Nanakao_hello_2.mp3"), { inlineVolume: true });
+                                console.log(resource)
+                                resource.volume.setVolume(4);
                                 connection.subscribe(player);
                                 player.play(resource);
-                    }, 500);
                 }
             }
         }
+        console.log(oldState)
     }
 };
