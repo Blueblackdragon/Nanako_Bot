@@ -1,8 +1,12 @@
 const fs = require('fs');
+const path = require('path');
 const { Client, Collection, Intents, VoiceChannel, ClientApplication } = require('discord.js');
-const { token } = require('./config.json');
+const { MessageActionRow, MessageButton } = require('discord.js');
 const { createAudioPlayer, createAudioResource, entersState,
 	StreamType, AudioPlayerStatus, VoiceConnectionStatus, AudioPlayer} = require('@discordjs/voice');
+	const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const { clientId, guildId, token } = require('./config.json'); 
 
 const nanako = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 
@@ -37,6 +41,11 @@ nanako.on('interactionCreate', async interaction => {
 		return interaction.reply({ content: 'There was an error while executing this command BAKA!', ephemeral: true });
 	}
 });
+
+// nanako.on('interactionCreate', async interaction => {
+// 	if (!interaction.isSelectMenu()) return;
+// 	console.log(interaction);
+// })
 
 
 // connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
