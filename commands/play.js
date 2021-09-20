@@ -23,16 +23,6 @@ module.exports = {
         player.play(resource);
         console.log(player._state.status)
             
-            // player.on(AudioPlayerStatus.Idle, () => {
-            //     console.log(player._state.status)
-            //     queue.shift();
-            //     console.log(queue)
-            //     queue.push(shiftEle);
-            //     console.log(shiftEle);
-            //     console.log(queue[0])
-            //     player.play(queue[0]);
-            // })
-
-        return interaction.reply({ content: `Now Playing: ${url}`, ephemeral: true })
+        return interaction.reply({ content: `Now Playing: ${url}`})
 }};
 
