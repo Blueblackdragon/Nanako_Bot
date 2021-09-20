@@ -4,21 +4,28 @@ const { Client, Collection, Intents, VoiceChannel, ClientApplication } = require
 const { MessageActionRow, MessageButton } = require('discord.js');
 const { createAudioPlayer, createAudioResource, entersState,
 	StreamType, AudioPlayerStatus, VoiceConnectionStatus, AudioPlayer} = require('@discordjs/voice');
-	const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+
 const { clientId, guildId, token } = require('./config.json'); 
 
-const nanako = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
+const nanako = new Client({ intents: [
+	Intents.FLAGS.GUILDS, 
+	Intents.FLAGS.GUILD_MESSAGES, 
+	Intents.FLAGS.GUILD_VOICE_STATES
+	] 
+});
 
+var queue = [];
+const player = createAudioPlayer();
 
 nanako.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	nanako.commands.set(command.data.name, command);
 }
 
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
@@ -28,14 +35,13 @@ for (const file of eventFiles) {
 	}
 }
 
-const player = createAudioPlayer();
 
 nanako.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 	const command = nanako.commands.get(interaction.commandName);
 	if (!command) return;
 	try {
-		await command.execute(interaction, nanako, player);
+		await command.execute(interaction, nanako, player, queue);
 	} catch (error) {
 		console.error(error);
 		return interaction.reply({ content: 'There was an error while executing this command BAKA!', ephemeral: true });
