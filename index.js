@@ -6,7 +6,6 @@ const { createAudioPlayer, createAudioResource, entersState,
 
 const nanako = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 
-const queue= []
 
 nanako.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -27,15 +26,12 @@ for (const file of eventFiles) {
 
 const player = createAudioPlayer();
 
-
-
 nanako.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 	const command = nanako.commands.get(interaction.commandName);
 	if (!command) return;
-	try { 
-		await command.execute(interaction, nanako, player, queue);
-	
+	try {
+		await command.execute(interaction, nanako, player);
 	} catch (error) {
 		console.error(error);
 		return interaction.reply({ content: 'There was an error while executing this command BAKA!', ephemeral: true });

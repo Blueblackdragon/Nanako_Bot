@@ -11,11 +11,11 @@ module.exports = {
             .setName('int')
             .setDescription('int for control')),
     async execute(interaction) {
+        const connection = getVoiceConnection(interaction.member.guild.id)
         const integer = interaction.options.getInteger('int');
-        const { resource } = require("./play.js")
         console.log(resource);
-        resource.volume.setVolume(integer);
-        return interaction.reply({ content: `Volume is now set to ${integer}`, ephemeral: true });
+        console.log(2000);
         //connection.setVolume(integer);
+        resource.volume.setVolume(integer);
     }
 };
