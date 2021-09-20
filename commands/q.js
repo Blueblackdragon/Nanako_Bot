@@ -16,9 +16,12 @@ module.exports = {
         .addSubcommand(subcommand => subcommand
             .setName('loop')
             .setDescription('Loops the q')),
-	async execute(interaction) {
+	async execute(interaction, player) {
         const connection = getVoiceConnection(interaction.member.guild.id)
-        if (interaction.options.getSubcommand() == 'pause'){
+        connection.subscribe(player);
+        console.log(connection.subscribe(player))
+        var songQueue = [];
+        if (interaction.options.getSubcommand() == 'loop'){
 
         }
     }
