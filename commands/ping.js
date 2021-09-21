@@ -1,10 +1,12 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton } = require('discord.js');
+const { Globals } = require('../globals.js');
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
-	async execute(interaction, nanako, player, queue) {
+	async execute(interaction, nanako) {
 		const row = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
@@ -12,6 +14,6 @@ module.exports = {
 					.setLabel('Primary')
 					.setStyle('PRIMARY'),
 			)
-		await interaction.reply({ content: 'Pong!', components: [row] });
+		interaction.reply({ content: 'Pong!', components: [row] });
 	}
 };

@@ -10,12 +10,7 @@ module.exports = {
         .addIntegerOption(option => option
             .setName('int')
             .setDescription('int for control')),
-    async execute(interaction, nanako, player, queue) {
-        const connection = getVoiceConnection(interaction.member.guild.id)
-        const integer = interaction.options.getInteger('int');
-        console.log(resource);
-        console.log(2000);
-        //connection.setVolume(integer);
-        resource.volume.setVolume(integer);
+    async execute(interaction, nanako) {
+        interaction.reply("Move the slider yourself poopyhead")
     }
 };

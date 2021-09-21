@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, SlashCommandSubcommandGroupBuilder } = require('@discordjs/builders');
 const { getVoiceConnection, AudioPlayer, PlayerSubscription, AudioPlayerStatus, NoSubscriberBehavior,  } = require('@discordjs/voice');
-
+const { Globals } = require('../globals.js');
 
 
 module.exports = {
@@ -16,14 +16,14 @@ module.exports = {
         .addSubcommand(subcommand => subcommand
             .setName('stop')
             .setDescription('Stops all Audio listeners on Idle')),
-	async execute(interaction, nanako, player, queue) {
+	async execute(interaction, nanako) {
         const connection = getVoiceConnection(interaction.member.guild.id)
         if (interaction.options.getSubcommand() == 'pause'){
             connection._state.subscription.player._state.status = 'paused';
         } else if (interaction.options.getSubcommand() == 'unpause'){
             connection._state.subscription.player._state.status = 'playing';
         } else if (interaction.options.getSubcommand() == 'stop'){
-            player.removeAllListeners(AudioPlayerStatus.Idle);
+            Globals.player.removeAllListeners(AudioPlayerStatus.Idle);
             console.log("stopped listeners")
             return interaction.reply("Stopped the music")
         }
