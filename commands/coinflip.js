@@ -4,7 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('coinflip')
 		.setDescription('Have Nanako flip a coin for you'),
-	async execute(interaction) {
+	async execute(interaction, nanako, player, queue) {
         interaction.reply("Ok, I'm flipping the coin now")
 		setTimeout(() => {
             const number = Math.random();

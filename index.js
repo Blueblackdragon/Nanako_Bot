@@ -35,7 +35,6 @@ for (const file of eventFiles) {
 	}
 }
 
-
 nanako.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 	const command = nanako.commands.get(interaction.commandName);
@@ -47,27 +46,6 @@ nanako.on('interactionCreate', async interaction => {
 		return interaction.reply({ content: 'There was an error while executing this command BAKA!', ephemeral: true });
 	}
 });
-
-// nanako.on('interactionCreate', async interaction => {
-// 	if (!interaction.isSelectMenu()) return;
-// 	console.log(interaction);
-// })
-
-
-// connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
-// 	try {
-// 		await Promise.race([
-// 			entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
-// 			entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
-// 		]);
-// 		// Seems to be reconnecting to a new channel - ignore disconnect
-// 	} catch (error) {
-// 		console.error(error);
-// 		// Seems to be a real disconnect which SHOULDN'T be recovered from
-// 		connection.destroy();
-// 	}
-// });
-
 
 
 nanako.login(token);

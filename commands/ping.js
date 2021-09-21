@@ -4,7 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
-	async execute(interaction) {
+	async execute(interaction, nanako, player, queue) {
 		const row = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
