@@ -16,10 +16,16 @@ module.exports = {
                 bot = undefined;
                 user = undefined;
                 if (player._state.status == "idle"){
-                    const resource = createAudioResource(join(__dirname, '../Nanako_hello.mp3'), { inlineVolume: true });
-                    resource.volume.setVolume(3);
-                    connection.subscribe(player);
-                    player.play(resource);
+                    var rng = Math.random();
+                    if(rng === 0.5){
+                        const resource = createAudioResource(join(__dirname, '../Nanako_VERY_LOUD.mp3'), { inlineVolume: true });
+                        resource.volume.setVolume(3);
+                    } else {
+                        const resource = createAudioResource(join(__dirname, '../Nanako_hello_2.mp3'), { inlineVolume: true });
+                        resource.volume.setVolume(3);
+                        connection.subscribe(player);
+                        player.play(resource);
+                    }
                 }
             }
         }
