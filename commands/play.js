@@ -25,7 +25,8 @@ module.exports = {
 		//Globals.queue.push(url);
 
 		var stream = await play.stream(url);
-		resource = createAudioResource(stream.stream, { inputType: stream.type }, { inlineVolume: true });
+		resource = createAudioResource(stream.stream, { inlineVolume: true , inputType: stream.type });
+		resource.volume.setVolume(Globals.volume)
 		Globals.player.play(resource);
 	interaction.reply({ content: `Now Playing: ${url}`});
 }};

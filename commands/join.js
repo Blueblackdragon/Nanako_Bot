@@ -17,8 +17,8 @@ module.exports = {
             guildId: interaction.member.guild.id,
             adapterCreator: interaction.member.guild.voiceAdapterCreator,
         });
-            var resource = createAudioResource(join(__dirname, '../first_try_hello.mp3'), { inlineVolume: true })
-            resource.volume.setVolume(4);
+            const resource = createAudioResource(join(__dirname, '../first_try_hello.mp3'), { inlineVolume: true })
+            resource.volume.setVolume(3.5);
             connection.subscribe(Globals.player);
             Globals.player.play(resource);
             setTimeout(() => {
@@ -30,7 +30,8 @@ module.exports = {
                             Globals.queue.push(entry)
                         }
                         var stream = await play.stream(entry);
-                        resource = createAudioResource(stream.stream, { inputType: stream.type }, { inlineVolume: true });
+                        resource = createAudioResource(stream.stream, { inputType: stream.type, inlineVolume: true });
+                        resource.volume.setVolume(Globals.volume)
                         await Globals.player.play(resource);
                         interaction.channel.send({content: `Now playing this ${entry}`})
                         console.log(Globals.queue)

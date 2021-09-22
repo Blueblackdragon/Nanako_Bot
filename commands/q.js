@@ -71,7 +71,8 @@ module.exports = {
             if (Globals.player.state.status == "idle"){
                 var stream = await play.stream(url);
                 //Globals.queue.shift();
-                resource = createAudioResource(stream.stream, { inputType: stream.type }, { inlineVolume: true });
+                resource = createAudioResource(stream.stream, { inputType: stream.type, inlineVolume: true });
+                resource.volume.setVolume(Globals.volume)
                 await Globals.player.play(resource)
             }
             return interaction.reply({content: `Added ${url} to the queue`})
