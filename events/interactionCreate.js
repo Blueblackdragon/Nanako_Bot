@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'interactionCreate',
-	async execute(interaction, nanako, player, queue) {
+	async execute(interaction, nanako) {
 		console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction on.`);
 		// if (interaction.isButton()){
 		// 	console.log("hello there")

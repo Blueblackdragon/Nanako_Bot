@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-
+const { Globals } = require('../globals.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('coinflip')
 		.setDescription('Have Nanako flip a coin for you'),
-	async execute(interaction, nanako, player, queue) {
+	async execute(interaction, nanako) {
         interaction.reply("Ok, I'm flipping the coin now")
 		setTimeout(() => {
             const number = Math.random();
