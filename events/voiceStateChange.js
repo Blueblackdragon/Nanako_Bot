@@ -5,18 +5,25 @@ const { Globals } = require('../globals.js');
 module.exports = {
 	name: 'voiceStateUpdate',
 	async execute(oldState, newState) {
+        const louis = 281224322029453315n
+        const connection = getVoiceConnection(newState.guild.id);
+        if (!connection) return;
+
         var user = (newState.id);
-        var bot = (oldState.client.user.id)
+        var bot = (oldState.client.user.id);
+        
         if ((user != bot)){
-            const connection = getVoiceConnection(newState.guild.id)
             if (newState.channelId === null) {
-                console.log("user left", oldState.channelId)
+                console.log("user left", oldState.id);
             } else if (oldState.channelId === null) {
-                console.log("user joined", newState.channelId)
+                console.log("user joined", newState.id);
                 const player2 = createAudioPlayer();
+
                 if (player2._state.status == "idle"){
                     var rng = Math.random();
-                    if(rng === 0.5){
+                    console.log(rng)
+
+                    if ((rng === 0.5) && (louis == BigInt(newState.id))){
                         const resource = createAudioResource(join(__dirname, '../Nanako_VERY_LOUD.mp3'), { inlineVolume: true });
                         resource.volume.setVolume(30);
                         connection.subscribe(player2);

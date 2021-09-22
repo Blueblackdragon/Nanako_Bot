@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, StreamType, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
+const { joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, StreamType, AudioPlayerStatus, createAudioResource, getVoiceConnection } = require('@discordjs/voice');
 const { Globals } = require('../globals.js');
 const play = require("play-dl");
 const { join } = require('path');
@@ -10,12 +10,14 @@ module.exports = {
 		.setDescription('Join a channel'),
 	async execute(interaction, nanako) {
         if(!interaction.member.voice.channelId) return interaction.reply({ content: "Join a channel first dummy", ephemeral: true});
-		const connection = joinVoiceChannel({
+		var connection = getVoiceConnection(interaction.member.guild.id);
+        if (connection) return interaction.reply({content: "I'm already home dummy Onii-chan"})
+        var connection = joinVoiceChannel({
             channelId: interaction.member.voice.channelId,
             guildId: interaction.member.guild.id,
             adapterCreator: interaction.member.guild.voiceAdapterCreator,
         });
-            var resource = createAudioResource(join(__dirname, '../Nanako_im_home.mp3'), { inlineVolume: true })
+            var resource = createAudioResource(join(__dirname, '../first_try_hello.mp3'), { inlineVolume: true })
             resource.volume.setVolume(4);
             connection.subscribe(Globals.player);
             Globals.player.play(resource);
