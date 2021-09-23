@@ -2,7 +2,7 @@ const { SlashCommandBuilder, SlashCommandSubcommandGroupBuilder } = require('@di
 const { getVoiceConnection, AudioPlayer, PlayerSubscription, AudioPlayerStatus, NoSubscriberBehavior, createAudioResource } = require('@discordjs/voice');
 const { MessageEmbed } = require('discord.js');
 const play = require("play-dl");
-const { Globals } = require('../globals.js');
+const { Globals } = require('../../globals.js');
 
 
 module.exports = {
@@ -42,12 +42,10 @@ module.exports = {
             .setTitle(`Server Queue for ${interaction.guild.name}`)
             .setColor([225, 0, 255])
 
-            // Globals.queue.forEach(Song => {
-            //     embed.addField(`hmm`, `ht ${Song[]} th`)
-            // })
             for (let i=0; i < Globals.queue.length; i++){
-                console.log(Globals.queue[i])
-                embed.addField(`~~~~~~`, `${i}th ${ Globals.queue[i] }`)
+                const video = await play.video_basic_info(Globals.queue[i])
+                console.log(video.video_details.title)
+                embed.addField(`~~~~~~~~~~~~~`, `${i+1}) ${video.video_details.title} |~~| by Creator: ${video.video_details.channel.name} |~~| Length: ${video.video_details.durationRaw}`)
             }
             return interaction.reply({ embeds: [embed], content: `Heres the song queue`})
         }
@@ -61,7 +59,19 @@ module.exports = {
 
 
         if (interaction.options.getSubcommand() == 'add'){
-            let url = interaction.options.getString("input");    
+            var url = interaction.options.getString("input");
+            var check = play.yt_validate(url)
+
+            if (!check) return interaction.reply("Thats not even a video!")
+            if (check === "playlist") return interaction.reply("Playlists are difficult to play Onii-chan...")
+            
+            try {
+                let yt_info = await play.video_info(url)
+                console.log(yt_info.video_details.title) 
+            } catch (error) {
+                return interaction.reply("How can I play a song that doesn't exist?")
+            }
+
             for (let song of Globals.queue) {
                 if(song == url) {
                     return interaction.reply({content: `Song already exists, not adding it BAKA!`});

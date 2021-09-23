@@ -4,11 +4,13 @@ const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
 
 const commands = []
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	commands.push(command.data.toJSON());
+let command_dir = "./commands"
+for (let dirs of fs.readdirSync(command_dir)) {
+    for (let files of fs.readdirSync(command_dir.concat("/", dirs))) {
+		const script = require(command_dir.concat("/", dirs, "/", files));
+		commands.push(script.data.toJSON());
+    }
 }
 
 const rest = new REST({ version: '9' }).setToken(token);

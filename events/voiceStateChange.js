@@ -33,7 +33,7 @@ module.exports = {
                         }, 2000);
                     } else {
                         const resource = createAudioResource(join(__dirname, '../Nanako_hello_2.mp3'), { inlineVolume: true });
-                        resource.volume.setVolume(3);
+                        resource.volume.setVolume(2);
                         connection.subscribe(player2);
                         player2.play(resource);
                         setTimeout(() => {
