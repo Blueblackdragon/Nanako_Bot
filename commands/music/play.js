@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { createAudioResource, getVoiceConnection, AudioPlayerStatus } = require('@discordjs/voice');
 const play = require("play-dl");
-const { Globals } = require('../globals.js');
+const { Globals } = require('../../globals.js');
 
 
 
@@ -11,6 +11,13 @@ module.exports = {
 		.setDescription('Information about the options provided.')
 		.addStringOption(option => option.setName('input').setDescription('The input to echo back').setRequired(true)),
 	async execute(interaction, nanako) {
+		var url = interaction.options.getString("input");    
+		var check = play.yt_validate(url);
+
+		console.log(check)
+		if (!check) return interaction.reply("That's not even a video!")
+        if (check === "playlist") return interaction.reply("Playlists are difficult to play Onii-chan...")
+
 		var connection = getVoiceConnection(interaction.guild.id);
 		if (!connection){
 			var connection = joinVoiceChannel({
@@ -20,8 +27,12 @@ module.exports = {
 			});
 		}
 		connection.subscribe(Globals.player);
-
-		let url = interaction.options.getString("input");    
+		try {
+			let yt_info = await play.video_info(url)
+			console.log(yt_info.video_details.title) 
+		} catch (error) {
+			return interaction.reply("How can I play a song that doesn't exist?")
+		}
 		//Globals.queue.push(url);
 
 		var stream = await play.stream(url);

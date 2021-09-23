@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Globals } = require('../globals.js');
+const { Globals } = require('../../globals.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('coinflip')

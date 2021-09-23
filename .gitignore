@@ -4,3 +4,9 @@ config.json
 package.json
 package-lock.json
 .eslintrc.json
+first_try_hello.mp3
+Nanako_hello.mp3
+Nanako_hello_2.mp3
+Nanako_im_home.mp3
+Nanako_VERY_LOUD.mp3
+database.sqlite

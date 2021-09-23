@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, SlashCommandSubcommandGroupBuilder } = require('@discordjs/builders');
 const { getVoiceConnection, AudioPlayer, PlayerSubscription, AudioPlayerStatus, NoSubscriberBehavior,  } = require('@discordjs/voice');
-const { Globals } = require('../globals.js');
+const { Globals } = require('../../globals.js');
 
 
 module.exports = {
