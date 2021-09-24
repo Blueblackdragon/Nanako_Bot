@@ -6,14 +6,14 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
-	async execute(interaction) {
+	async execute(interaction, nanako) {
 		const row = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
 					.setCustomId('primary')
-					.setLabel('Primary')
-					.setStyle('PRIMARY'),
+					.setLabel('BURNING PETALS')
+					.setStyle('DANGER'),
 			)
-		interaction.reply({ content: 'Pong!', components: [row] });
+		interaction.reply({ content: `It takes ${nanako.ws.ping}ms to Pong!`, components: [row] });
 	}
 };
