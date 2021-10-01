@@ -1,9 +1,7 @@
-const { SlashCommandBuilder, SlashCommandSubcommandGroupBuilder } = require('@discordjs/builders');
-const { getVoiceConnection, AudioPlayer, PlayerSubscription, AudioPlayerStatus, NoSubscriberBehavior, createAudioResource } = require('@discordjs/voice');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { getVoiceConnection, createAudioResource } = require('@discordjs/voice');
 const { MessageEmbed } = require('discord.js');
-const play = require("play-dl");
-const { Globals } = require('../../globals.js');
-
+const { Globals, cacheVideo, checkTitleDB} = require('../../globals.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -41,59 +39,55 @@ module.exports = {
             const embed = new MessageEmbed()
             .setTitle(`Server Queue for ${interaction.guild.name}`)
             .setColor([225, 0, 255])
-
             for (let i=0; i < Globals.queue.length; i++){
-                const video = await play.video_basic_info(Globals.queue[i])
-                console.log(video.video_details.title)
-                embed.addField(`~~~~~~~~~~~~~`, `${i+1}) ${video.video_details.title} |~~| by Creator: ${video.video_details.channel.name} |~~| Length: ${video.video_details.durationRaw}`)
+                const { title, author, length } = await checkTitleDB(Globals.queue[i], "./titleCache.json");
+                embed.addField(`~~~~~~~~~~~~~`, `${i+1}) ${title} |~~| by Creator: ${author} |~~| Length: ${length}`);
             }
-            return interaction.reply({ embeds: [embed], content: `Heres the song queue`})
+            return interaction.reply({ embeds: [embed], content: `Heres the song queue`});
         }
 
 
         if (interaction.options.getSubcommand() == 'loop'){
             Globals.isLooping = !Globals.isLooping;
-            if (Globals.isLooping == true) return interaction.reply('Now Looping the queue')
-            if (Globals.isLooping == false) return interaction.reply('No longer looping')
+            if (Globals.isLooping == true) return interaction.reply('Now Looping the queue');
+            if (Globals.isLooping == false) return interaction.reply('No longer looping');
         }
 
 
         if (interaction.options.getSubcommand() == 'add'){
+
             var url = interaction.options.getString("input");
-            var check = play.yt_validate(url)
-
-            if (!check) return interaction.reply("Thats not even a video!")
-            if (check === "playlist") return interaction.reply("Playlists are difficult to play Onii-chan...")
             
-            try {
-                let yt_info = await play.video_info(url)
-                console.log(yt_info.video_details.title) 
-            } catch (error) {
-                return interaction.reply("How can I play a song that doesn't exist?")
-            }
-
             for (let song of Globals.queue) {
                 if(song == url) {
                     return interaction.reply({content: `Song already exists, not adding it BAKA!`});
                 }
             }
+
             Globals.queue.push(url);
+
             if (Globals.player.state.status == "idle"){
-                var stream = await play.stream(url);
-                //Globals.queue.shift();
-                resource = createAudioResource(stream.stream, { inputType: stream.type, inlineVolume: true });
-                resource.volume.setVolume(Globals.volume)
-                await Globals.player.play(resource)
+
+                try {
+                    var stream = cacheVideo(url, "./videoCache.json");
+                } catch (error) {
+                    return interaction.reply("How can I play a song that doesn't exist?");
+                }
+
+                resource = createAudioResource(stream, { inlineVolume: true });
+                resource.volume.setVolume(Globals.volume);
+                Globals.player.play(resource);
             }
-            return interaction.reply({content: `Added ${url} to the queue`})
+            return interaction.reply({content: `Added ${url} to the queue`});
         }
 
 
         if (interaction.options.getSubcommand() == 'clear'){
+
             console.log(Globals.queue);
             Globals.queue.length = 0;
-            console.log(Globals.queue)
-            return interaction.reply("Cleared the q")
+            console.log(Globals.queue);
+            return interaction.reply("Cleared the queue");
         }
     }
 };

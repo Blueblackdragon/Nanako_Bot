@@ -68,7 +68,7 @@ for (const file of eventFiles) {
 	}
 }
 
-nanako.on("debug", console.log).on("warn", console.log)
+//nanako.on("debug", console.log).on("warn", console.log)
 
 nanako.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;

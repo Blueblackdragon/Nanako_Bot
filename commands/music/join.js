@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, StreamType, AudioPlayerStatus, createAudioResource, getVoiceConnection } = require('@discordjs/voice');
-const { Globals } = require('../../globals.js');
+const { Globals, cacheVideo } = require('../../globals.js');
 const play = require("play-dl");
 const { join } = require('path');
 
@@ -29,15 +29,14 @@ module.exports = {
                         if (Globals.isLooping == true){
                             Globals.queue.push(entry)
                         }
-                        var stream = await play.stream(entry);
-                        resource = createAudioResource(stream.stream, { inputType: stream.type, inlineVolume: true });
+                        var stream = cacheVideo(entry, "./videoCache.json");
+                        resource = createAudioResource(stream, { inlineVolume: true });
                         resource.volume.setVolume(Globals.volume)
                         await Globals.player.play(resource);
 
-                        var video = await play.video_basic_info(entry)
-                        console.log(video.video_details.title)
+                        const { title, author, length } = await checkTitleDB(entry, "./titleCache.json")
 
-                        interaction.channel.send({content: `Now playing this ${video.video_details.title}`})
+                        interaction.channel.send({content: `Now playing this ${title}`})
                         console.log(Globals.queue)
                     }
                 })
