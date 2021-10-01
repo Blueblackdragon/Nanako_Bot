@@ -3,7 +3,6 @@ const { createAudioResource, getVoiceConnection } = require('@discordjs/voice');
 const { Globals, cacheVideo } = require('../../globals.js');
 
 
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('play')

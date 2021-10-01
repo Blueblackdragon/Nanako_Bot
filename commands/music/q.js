@@ -38,11 +38,15 @@ module.exports = {
         if (interaction.options.getSubcommand() == 'list'){
             const embed = new MessageEmbed()
             .setTitle(`Server Queue for ${interaction.guild.name}`)
-            .setColor([225, 0, 255])
+            .setColor([225, 0, 255]);
+
             for (let i=0; i < Globals.queue.length; i++){
+
                 const { title, author, length } = await checkTitleDB(Globals.queue[i], "./titleCache.json");
+
                 embed.addField(`~~~~~~~~~~~~~`, `${i+1}) ${title} |~~| by Creator: ${author} |~~| Length: ${length}`);
             }
+
             return interaction.reply({ embeds: [embed], content: `Heres the song queue`});
         }
 
@@ -55,7 +59,6 @@ module.exports = {
 
 
         if (interaction.options.getSubcommand() == 'add'){
-
             var url = interaction.options.getString("input");
             
             for (let song of Globals.queue) {
@@ -83,7 +86,6 @@ module.exports = {
 
 
         if (interaction.options.getSubcommand() == 'clear'){
-
             console.log(Globals.queue);
             Globals.queue.length = 0;
             console.log(Globals.queue);

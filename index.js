@@ -37,7 +37,6 @@ module.exports ={
 
 
 nanako.commands = new Collection();
-//const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 
@@ -50,15 +49,6 @@ for(let dirs of fs.readdirSync(command_dir)) {
     }
 }
 
-// for (const file of commandFiles) {
-// 	const command = require(`./commands/fun/${file}`, `./commands/music/${file}`, `./commands/tags/${file}`, `./commands/utils/${file}`);
-// 	try{
-// 		nanako.commands.set(command.data.name, command);
-// 	} catch (error){
-// 		console.error(error)
-// 	}
-// }
-
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
@@ -67,8 +57,6 @@ for (const file of eventFiles) {
 		nanako.on(event.name, (...args) => event.execute(...args));
 	}
 }
-
-//nanako.on("debug", console.log).on("warn", console.log)
 
 nanako.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;

@@ -1,8 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { joinVoiceChannel, getVoiceConnection, createAudioResource } = require('@discordjs/voice');
 const { Globals, cacheVideo } = require('../../globals.js');
-const play = require("play-dl");
-const { join } = require('path');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -22,7 +20,7 @@ module.exports = {
         let url = Globals.queue[0]
 
 		if (Globals.isLooping === true){
-			Globals.queue.push(url)
+			Globals.queue.push(url);
 		}
 
         var stream = cacheVideo(url, "./videoCache.json");
@@ -38,7 +36,7 @@ module.exports = {
 		resource.volume.setVolume(Globals.volume);
 
         Globals.player.play(resource);
-		
+
         return interaction.followUp(`Skipped song`);
         }
 };
