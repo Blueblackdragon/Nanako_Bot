@@ -24,20 +24,28 @@ module.exports = {
                     console.log(rng)
 
                     if ((rng === 0.5) && (louis == BigInt(newState.id))){
+
                         const resource = createAudioResource(join(__dirname, '../Nanako_VERY_LOUD.mp3'), { inlineVolume: true });
                         resource.volume.setVolume(30);
+
                         connection.subscribe(player2);
+
                         player2.play(resource);
+
                         setTimeout(() => {
-                            connection.subscribe(Globals.player)
+                            connection.subscribe(Globals.player);
                         }, 2000);
+                        
                     } else {
                         const resource = createAudioResource(join(__dirname, '../Nanako_hello_2.mp3'), { inlineVolume: true });
                         resource.volume.setVolume(2);
+
                         connection.subscribe(player2);
+
                         player2.play(resource);
+
                         setTimeout(() => {
-                            connection.subscribe(Globals.player)
+                            connection.subscribe(Globals.player);
                         }, 2000);
                     }
                 }
