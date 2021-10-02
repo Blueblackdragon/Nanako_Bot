@@ -26,7 +26,7 @@ module.exports = {
 		} catch (error) {
 			return interaction.reply("How can I play a song that doesn't exist?")}
 
-		resource = createAudioResource(stream, { inputType: stream.type });
+		resource = createAudioResource(stream, { inlineVolume: true });
 		resource.volume.setVolume(Globals.volume)
 
 		Globals.player.play(resource);

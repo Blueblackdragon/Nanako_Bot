@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { joinVoiceChannel, AudioPlayerStatus, createAudioResource, getVoiceConnection } = require('@discordjs/voice');
-const { Globals, cacheVideo } = require('../../globals.js');
+const { Globals, cacheVideo, checkTitleDB } = require('../../globals.js');
 const { join } = require('path');
 
 module.exports = {
